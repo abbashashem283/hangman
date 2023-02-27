@@ -1,5 +1,5 @@
+//<div class="letter"></div>
 window.onkeypress = (e) => {console.log(e.key)}
-
 
 const data = {
     "Magician":"A Person who performs magic",
@@ -7,14 +7,33 @@ const data = {
     "Black Smith": "A Person who shapes iron"
 }
 
+const prompt = document.getElementById("prompt")
+const word_definition = document.getElementById("definition")
+const letters = document.getElementById("letters")
+
 let chosen_word , display_positions;
 
-console.log(chosen_word)
+newRound();
+setUpLetters();
 
 function newRound() {
     chosen_word = getChosenWord()
     display_positions = positionsOfDisplay()
 }
+
+function setUpLetters() {
+    letters.innerHTML = ""
+    for(let i=0 ; i<chosen_word.length ; ++i){
+        let letter = ""
+        if(display_positions.has(i))
+            letter = '<div class="letter">'+chosen_word[i]+'</div>'
+        else
+            letter = '<div class="letter"></div>'
+        letters.innerHTML += letter
+    }
+}
+
+console.log(chosen_word)
 
 function getChosenWord() {
     let keys = Object.keys(data);
@@ -32,20 +51,17 @@ function lettersToShow(){
 }
 
 function positionsOfDisplay() {
-    let positions = []
     let letters = lettersToShow()
-    let already_exists = new Set()
+    let positions = new Set()
     for(let i=0 ; i<letters; ++i) {
         let position = getRandomNumber(chosen_word.length)
-        if(already_exists.has(position)){
+        if(positions.has(position)){
             --i;
             continue;
         }
-        positions.push(position)
-        already_exists.add(position)
+        positions.add(position)
     }
     return positions
 }
 
-//======DOM
 
