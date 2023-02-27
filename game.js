@@ -4,8 +4,9 @@ const data = {
     "Black Smith": "A Person who shapes iron"
 }
 
-let chosen_word
+let chosen_word = getChosenWord()
 
+console.log(chosen_word)
 
 function getChosenWord() {
     let keys = Object.keys(data);
@@ -18,11 +19,23 @@ function getRandomNumber(range) {
     return Math.floor(Math.random() * range)
 }
 
-function lettersToShow(word_length){
-    return Math.floor(word_length * 0.3)
+function lettersToShow(){
+    return Math.floor(chosen_word.length * 0.3)
 }
 
 function positionsOfDisplay() {
-
+    let positions = []
+    let letters = lettersToShow()
+    let already_exists = new Set()
+    for(let i=0 ; i<letters; ++i) {
+        let position = getRandomNumber(chosen_word.length)
+        if(already_exists.has(position)){
+            --i;
+            continue;
+        }
+        positions.push(position)
+        already_exists.add(position)
+    }
+    return positions
 }
 
