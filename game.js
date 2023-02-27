@@ -4,9 +4,14 @@ const data = {
     "Black Smith": "A Person who shapes iron"
 }
 
-let chosen_word = getChosenWord()
+let chosen_word , display_positions;
 
 console.log(chosen_word)
+
+function newRound() {
+    chosen_word = getChosenWord()
+    display_positions = positionsOfDisplay()
+}
 
 function getChosenWord() {
     let keys = Object.keys(data);
@@ -38,4 +43,6 @@ function positionsOfDisplay() {
     }
     return positions
 }
+
+//======DOM
 
