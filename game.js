@@ -1,3 +1,6 @@
+window.onkeypress = (e) => {console.log(e.key)}
+
+
 const data = {
     "Magician":"A Person who performs magic",
     "Carpenter": "A Person who works with wood",
