@@ -14,25 +14,38 @@ const word_definition = document.getElementById("definition")
 const letters = document.getElementById("letters")
 const charachters = document.getElementsByClassName("letter")
 const body_parts = document.getElementsByClassName("bpart");
+const again_btn = document.getElementById("again")
 
 let chosen_word , display_positions, game_state="initial", strikes=0;
+
+function reset() {
+    newRound();
+    setUpLetters();
+}
 
 newRound();
 setUpLetters();
 
-window.onkeyup = (e) => {
+window.onkeypress = (e) => {
     if(game_state == "active"){
         console.log(chosen_word)
         validateCharacter(e.key)
     }
 }
 
+again_btn.addEventListener("click" , reset)
+
 
 function newRound() {
     chosen_word = getChosenWord()
     display_positions = positionsOfDisplay()
     word_definition.innerText = `"${data[chosen_word]}"`
+    prompt.innerText = "Press keyboard characters to play"
     game_state = "active"
+    strikes=0
+    again_btn.style.display = "none"
+    for(let i=0 ; i<6 ; ++i)
+        body_parts[i].style.visibility = "hidden"
 }
 
 function setUpLetters() {
@@ -87,12 +100,14 @@ function hangMan() {
 
 function looseGame() {
     prompt.innerText= "YOU LOOSE!!!"
-        game_state = "lost"
+    game_state = "lost"
+    again_btn.style.display = "block"
 }
 
 function winGame() {
     prompt.innerText= "YOU WIN!!!"
     game_state = "won"
+    again_btn.style.display = "block"
 }
 
 function displayCharacter(char , position) {
