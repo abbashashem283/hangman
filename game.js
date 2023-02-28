@@ -1,33 +1,48 @@
 //<div class="letter"></div>
-window.onkeypress = (e) => {console.log(e.key)}
+
 
 const data = {
-    "Magician":"A Person who performs magic",
-    "Carpenter": "A Person who works with wood",
-    "Black Smith": "A Person who shapes iron"
+    "magician":"A Person who performs magic (magician)",
+    "carpenter": "A Person who works with wood (carpenter)",
+    "black smith": "A Person who shapes iron (black smith)",
+    "apple pie": "A yummy dessert (apple pie)",
+    "engineer": "A person who engineers stuff"
 }
 
 const prompt = document.getElementById("prompt")
 const word_definition = document.getElementById("definition")
 const letters = document.getElementById("letters")
+const charachters = document.getElementsByClassName("letter")
+const body_parts = document.getElementsByClassName("bpart");
 
-let chosen_word , display_positions;
+let chosen_word , display_positions, game_state="initial", strikes=0;
 
 newRound();
 setUpLetters();
 
+window.onkeyup = (e) => {
+    if(game_state == "active"){
+        console.log(chosen_word)
+        validateCharacter(e.key)
+    }
+}
+
+
 function newRound() {
     chosen_word = getChosenWord()
     display_positions = positionsOfDisplay()
+    word_definition.innerText = `"${data[chosen_word]}"`
+    game_state = "active"
 }
 
 function setUpLetters() {
     letters.innerHTML = ""
     for(let i=0 ; i<chosen_word.length ; ++i){
         let letter = ""
-        if(display_positions.has(i))
-            letter = '<div class="letter">'+chosen_word[i]+'</div>'
-        else
+        if(display_positions.has(i)) {
+            letter = '<div class="letter">' + chosen_word[i] + '</div>'
+            maskChar(i)
+        }else
             letter = '<div class="letter"></div>'
         letters.innerHTML += letter
     }
@@ -62,6 +77,42 @@ function positionsOfDisplay() {
         positions.add(position)
     }
     return positions
+}
+
+function hangMan() {
+    if(strikes == 5)
+        looseGame()
+    body_parts[strikes++].style.visibility = "visible"
+}
+
+function looseGame() {
+    prompt.innerText= "YOU LOOSE!!!"
+        game_state = "lost"
+}
+
+function winGame() {
+    prompt.innerText= "YOU WIN!!!"
+    game_state = "won"
+}
+
+function displayCharacter(char , position) {
+    charachters[position].innerText = char;
+    maskChar(position);
+    if(chosen_word.trim().length == 0)
+        winGame()
+}
+
+function maskChar(index) {
+    chosen_word = chosen_word.substring(0,index)+" "+chosen_word.substring(index+1)
+}
+
+function validateCharacter(char) {
+    let index = chosen_word.indexOf(char);
+    console.log("kkk"+index+" "+chosen_word)
+    if(index === -1)
+        hangMan()
+    else
+        displayCharacter(char,index)
 }
 
 
