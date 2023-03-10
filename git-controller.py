@@ -1,20 +1,25 @@
 import os
 
+def cmd(command):
+    print()
+    os.system(command)
+    print()
+
 def add():
     os.system(f"git add .")
 
 def commit():
     message = input("enter commit message:\n")
-    os.system(f'git commit -m "{message}"')
+    cmd(f'git commit -m "{message}"')
 
 def status():
-    os.system("git status")
+    cmd("git status")
 
 def pull():
-    os.system("git pull")
+    cmd("git pull")
 
 def push():
-    os.system("git push")
+    cmd("git push")
 
 def record():
     add()
