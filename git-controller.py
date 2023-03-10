@@ -24,7 +24,7 @@ def record():
 
 
 while True:
-    print("===============================\n")
+    print("\n\n===============================\n\n")
     command = input("a: add | c: commit | s: status | push: push | pull: pull | r: record\n")
     if command == "a":
         add()
